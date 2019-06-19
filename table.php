@@ -32,7 +32,6 @@
             `idBuilding` = '{$_POST['idBuilding']}', 
             `idTeachers` = '{$_POST['idTeachers']}' 
           WHERE `id` ='{$_GET['red']}'";
-        echo $query;
         $sql = mysqli_query($cont, $query);
       } else {
         //Иначе добаляем данные, подставляя их в запрос
@@ -51,9 +50,7 @@
       }
 
       //Если данные добавлены успешно прошла успешно
-      if ($sql) {
-        echo '<p>Successfully!</p>';
-      } else {
+      if (!$sql) {
         echo '<p>Error: ' . mysqli_error($cont) . '</p>';
       }
     }
@@ -61,9 +58,7 @@
     //Удаляем строку с данными через id
     if (isset($_GET['del'])) {
       $sql = mysqli_query($cont, "DELETE FROM `Courses` WHERE `id` = '{$_GET['del']}'");
-      if ($sql) {
-        echo "<p>Not exist</p>";
-      } else {
+      if (!$sql) {
         echo '<p>Error: ' . mysqli_error($cont) . '</p>';
       }
     }
@@ -116,7 +111,6 @@
     }
     echo "</TABLE>";
 
-    echo "<p></p> <p>Add new note</p>";
     ?>
    
   <!-- поля для создания новой заметки -->
