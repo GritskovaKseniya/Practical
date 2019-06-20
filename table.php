@@ -137,20 +137,21 @@
         	 <td>idBuilding:</td>
              <td>
               <select name="idBuilding">
-              <? $sql = mysqli_query($cont, "SELECT id FROM Building"); 
+              <? $sql = mysqli_query($cont, "SELECT name FROM Building"); 
               while($result = mysqli_fetch_array($sql))
               {
-                echo "<option>".$result['id']."</option>";
+                echo "<option>".$result['name']."</option>";
               } ?></select>
             </td>
       	</tr>
       	<tr>
         	 <td>idTeachers:</td>
         	 <td><select name="idTeachers">
-              <? $sql = mysqli_query($cont, "SELECT id FROM Teachers"); 
+              <? $sql = mysqli_query($cont, "SELECT firstname, name, surname FROM Teachers"); 
               while($result = mysqli_fetch_array($sql))
               {
-                echo "<option>".$result['id']."</option>";
+                $result = $result['firstname']." ".$result['name']." ".$result['surname'];
+                echo "<option>".$result."</option>";
               } ?></select></td>
       	</tr>
       	<tr>
