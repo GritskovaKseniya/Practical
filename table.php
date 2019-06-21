@@ -141,14 +141,16 @@
               <?
                   $currentName = mysqli_fetch_array(mysqli_query($cont, 'SELECT name FROM Building WHERE id='.$product['idBuilding']))['name'];
                   $sql = mysqli_query($cont, "SELECT id, name FROM Building"); 
+                  
+                  if($product['idBuilding']) 
+                  {
+                    echo '<option>'.$currentName.'</option>';
+                  }
                   echo "<option disabled>Select Building</option>";
-                  echo '<option>'.$currentName.'</option>';
-
                   while($result = mysqli_fetch_array($sql))
                   {
                     if ($result['id'] != $product['idBuilding']) {
                       echo '<option>'.$result['name'].'</option>';
-                      //$result['id'] == $idBuilding;
                     }
                   } 
                 ?></select>
@@ -162,7 +164,10 @@
                   $sql = mysqli_query($cont, "SELECT id, firstname, name, surname FROM Teachers"); 
                   $some = $current['firstname']." ".$current['name']." ".$current['surname'];
                   echo "<option disabled>Select Teacher</option>";
+                  if($product['idTeachers'])
+                  {
                   echo '<option>'.$some.'</option>';
+                  }
                   while($result = mysqli_fetch_array($sql))
                   {
                     if ($result['id'] != $product['idTeachers']) {
