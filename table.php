@@ -23,19 +23,25 @@
       //Если это запрос на обновление, то обновляем  
       if (isset($_GET['red'])) {
         $ifActive = $_POST['ifActive'] == 'true' ? 1 : 0;
+        $idBuilding = mysqli_fetch_array(mysqli_query($cont," SELECT `id` FROM `Building` WHERE `name` LIKE '{$_POST['Building']}' "))['id'];
+        $names = explode(" ",$_POST['Teachers']);
+        $idTeachers = mysqli_fetch_array(mysqli_query($cont,"SELECT id FROM Teachers WHERE `firstname` LIKE '{$names[0]}' AND `name` LIKE '{$names[1]}' AND `surname` LIKE '{$names[2]}'"))['id'];
         $query = 
           "UPDATE `Courses` 
           SET 
             `name` = '{$_POST['name']}', 
             `description` = '{$_POST['description']}', 
             `ifActive` ={$ifActive}, 
-            `idBuilding` = '{$_POST['idBuilding']}', 
-            `idTeachers` = '{$_POST['idTeachers']}' 
-          WHERE `id` ='{$_GET['red']}'";
+            `idBuilding` = {$idBuilding} , 
+            `idTeachers` = {$idTeachers} 
+          WHERE `id` ='{$_GET['red']}'"; 
         $sql = mysqli_query($cont, $query);
       } else {
         //Иначе добаляем данные, подставляя их в запрос
         $ifActive = $_POST['ifActive'] == 'true' ? 1 : 0;
+        $idBuilding = mysqli_fetch_array(mysqli_query($cont," SELECT `id` FROM `Building` WHERE `name` LIKE '{$_POST['Building']}' "))['id'];
+        $names = explode(" ",$_POST['Teachers']);
+        $idTeachers = mysqli_fetch_array(mysqli_query($cont,"SELECT id FROM Teachers WHERE `firstname` LIKE '{$names[0]}' AND `name` LIKE '{$names[1]}' AND `surname` LIKE '{$names[2]}'"))['id'];
         $query = 
         "INSERT INTO `Courses` 
         (`name`, `description`, `ifActive`, `idBuilding`, `idTeachers`) 
@@ -43,8 +49,8 @@
           '{$_POST['name']}', 
           '{$_POST['description']}', 
           {$ifActive}, 
-          '{$_POST['idBuilding']}', 
-          '{$_POST['idTeachers']}'
+          {$idBuilding}, 
+          {$idTeachers}
         )";
         $sql = mysqli_query($cont, $query);
       }
@@ -76,20 +82,14 @@
 
 	function  get_teacher_name($id,$cont)
 	{
-		$sql = mysqli_query($cont, "SELECT `firstname`, `name`, `surname` from `Teachers` where `id`='".$id."'");
-		while($result = mysqli_fetch_array($sql))
-		{
-			return $result = $result['firstname']." ".$result['name']." ".$result['surname'];
-		}
+		$sql = mysqli_fetch_array(mysqli_query($cont, "SELECT `firstname`, `name`, `surname` from `Teachers` where `id`='".$id."'"));
+		return $result = $sql['firstname']." ".$sql['name']." ".$sql['surname'];
 	}
  
 	function get_building_val($id,$cont)
 	{
-		$sql = mysqli_query($cont, "SELECT `name` from `Building` where `id`='".$id."'");
-		while($result = mysqli_fetch_array($sql))
-		{
-			return $result['name'];
-		}
+		$sql = mysqli_fetch_array(mysqli_query($cont, "SELECT `name` from `Building` where `id`='".$id."'"));
+		return $sql['name'];
 	}
   echo '<h2>Courses Table</h2>';
   //выводим таблицу
@@ -135,7 +135,7 @@
           </select></td></tr>
         </tr>
       	<tr>
-        	 <td>idBuilding:</td>
+        	 <td>Building:</td>
              <td>
               <select name="Building">
               <?
@@ -148,14 +148,15 @@
                   {
                     if ($result['id'] != $product['idBuilding']) {
                       echo '<option>'.$result['name'].'</option>';
+                      //$result['id'] == $idBuilding;
                     }
                   } 
                 ?></select>
             </td>
       	</tr>
       	<tr>
-        	 <td>idTeachers:</td>
-        	 <td><select name="Teachers"> //
+        	 <td>Teacher:</td>
+        	 <td><select name="Teachers">
               <?
                   $current = mysqli_fetch_array(mysqli_query($cont, 'SELECT firstname, name, surname FROM Teachers WHERE id='.$product['idTeachers']));
                   $sql = mysqli_query($cont, "SELECT id, firstname, name, surname FROM Teachers"); 
