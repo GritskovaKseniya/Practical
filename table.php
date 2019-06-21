@@ -136,8 +136,8 @@
       	<tr>
         	 <td>idBuilding:</td>
              <td>
-              <select name="idBuilding">
-                <?
+              <select name="Building">
+              <?
                   $currentName = mysqli_fetch_array(mysqli_query($cont, 'SELECT name FROM Building WHERE id='.$product['idBuilding']))['name'];
                   $sql = mysqli_query($cont, "SELECT id, name FROM Building"); 
                   
@@ -149,19 +149,27 @@
                       echo '<option>'.$result['name'].'</option>';
                     }
                   } 
-                ?>
-              </select>
+                ?></select>
             </td>
       	</tr>
       	<tr>
         	 <td>idTeachers:</td>
-        	 <td><select name="idTeachers">
-              <? $sql = mysqli_query($cont, "SELECT firstname, name, surname FROM Teachers"); 
-              while($result = mysqli_fetch_array($sql))
-              {
-                $result = $result['firstname']." ".$result['name']." ".$result['surname'];
-                echo "<option>".$result."</option>";
-              } ?></select></td>
+        	 <td><select name="Teachers">
+              <?
+                  $current = mysqli_fetch_array(mysqli_query($cont, 'SELECT firstname, name, surname FROM Teachers WHERE id='.$product['idTeachers']));
+                  $sql = mysqli_query($cont, "SELECT id, firstname, name, surname FROM Teachers"); 
+                  $some = $current['firstname']." ".$current['name']." ".$current['surname'];
+                  echo '<option>'.$some.'</option>';
+
+                  while($result = mysqli_fetch_array($sql))
+                  {
+                    if ($result['id'] != $product['idTeachers']) {
+                      $result = $result['firstname']." ".$result['name']." ".$result['surname'];
+                      echo '<option>'.$result.'</option>';
+                    }
+                  } 
+                ?>
+              </select></td>
       	</tr>
       	<tr>
         	 <td colspan="2"><input type="submit" value="ADD"></td>
