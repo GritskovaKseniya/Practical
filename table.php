@@ -120,15 +120,16 @@
     <table>
         <tr>
         	 <td>Name:</td>
-        	 <td><input type="text" name="name" value="<?= isset($_GET['red']) ? $product['name'] : ''; ?>"></td>
+        	 <td><input placeholder="Course" type="text" name="name" value="<?= isset($_GET['red']) ? $product['name'] : ''; ?>"></td>
       	</tr>
       	<tr>
         	 <td>Description:</td>
-        	 <td><input type="text" name="description" value="<?=  isset($_GET['red']) ? $product['description'] : ''; ?>"></textarea></td>
+        	 <td><input placeholder="Description" type="text" name="description" value="<?=  isset($_GET['red']) ? $product['description'] : ''; ?>"></textarea></td>
       	</tr>
       	<tr>
       		 <td>ifActive:</td>
       		 <td><select name="ifActive">
+            <option disabled>ifActive</option>
             <option><? if(isset($_GET['red'])) {echo $product['ifActive'] == 1 ? 'true' : 'false';} else {echo 'true';} ?> </option>
             <option><? if(isset($_GET['red'])) {echo $product['ifActive'] == 1 ? 'false' : 'true';} else {echo 'false';} ?> </option>
           </select></td></tr>
@@ -140,7 +141,7 @@
               <?
                   $currentName = mysqli_fetch_array(mysqli_query($cont, 'SELECT name FROM Building WHERE id='.$product['idBuilding']))['name'];
                   $sql = mysqli_query($cont, "SELECT id, name FROM Building"); 
-                  
+                  echo "<option disabled>Select Building</option>";
                   echo '<option>'.$currentName.'</option>';
 
                   while($result = mysqli_fetch_array($sql))
@@ -159,8 +160,8 @@
                   $current = mysqli_fetch_array(mysqli_query($cont, 'SELECT firstname, name, surname FROM Teachers WHERE id='.$product['idTeachers']));
                   $sql = mysqli_query($cont, "SELECT id, firstname, name, surname FROM Teachers"); 
                   $some = $current['firstname']." ".$current['name']." ".$current['surname'];
+                  echo "<option disabled>Select Teacher</option>";
                   echo '<option>'.$some.'</option>';
-
                   while($result = mysqli_fetch_array($sql))
                   {
                     if ($result['id'] != $product['idTeachers']) {
