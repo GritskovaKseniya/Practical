@@ -23,19 +23,22 @@
       //Если это запрос на обновление, то обновляем  
       if (isset($_GET['red'])) {
         $ifActive = $_POST['ifActive'] == 'true' ? 1 : 0;
+        $idBuilding = $_POST['idBuilding'];
         $query = 
           "UPDATE `Courses` 
           SET 
             `name` = '{$_POST['name']}', 
             `description` = '{$_POST['description']}', 
             `ifActive` ={$ifActive}, 
-            `idBuilding` = '{$_POST['idBuilding']}', 
+            `idBuilding` = {$idBuilding}, 
             `idTeachers` = '{$_POST['idTeachers']}' 
-          WHERE `id` ='{$_GET['red']}'";
+          WHERE `id` ='{$_GET['red']}'"; 
         $sql = mysqli_query($cont, $query);
       } else {
         //Иначе добаляем данные, подставляя их в запрос
         $ifActive = $_POST['ifActive'] == 'true' ? 1 : 0;
+        $idBuilding = $_POST['idBuilding'];
+        $idTeachers = $_POST['idTeachers'];
         $query = 
         "INSERT INTO `Courses` 
         (`name`, `description`, `ifActive`, `idBuilding`, `idTeachers`) 
@@ -43,7 +46,7 @@
           '{$_POST['name']}', 
           '{$_POST['description']}', 
           {$ifActive}, 
-          '{$_POST['idBuilding']}', 
+          {$idBuilding}, 
           '{$_POST['idTeachers']}'
         )";
         $sql = mysqli_query($cont, $query);
@@ -148,6 +151,7 @@
                   {
                     if ($result['id'] != $product['idBuilding']) {
                       echo '<option>'.$result['name'].'</option>';
+                      $result['id'] == $idBuilding;
                     }
                   } 
                 ?></select>
