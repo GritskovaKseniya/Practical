@@ -137,11 +137,20 @@
         	 <td>idBuilding:</td>
              <td>
               <select name="idBuilding">
-              <? $sql = mysqli_query($cont, "SELECT name FROM Building"); 
-              while($result = mysqli_fetch_array($sql))
-              {
-                echo "<option>".$result['name']."</option>";
-              } ?></select>
+                <?
+                  $currentName = mysqli_fetch_array(mysqli_query($cont, 'SELECT name FROM Building WHERE id='.$product['idBuilding']))['name'];
+                  $sql = mysqli_query($cont, "SELECT id, name FROM Building"); 
+                  
+                  echo '<option>'.$currentName.'</option>';
+
+                  while($result = mysqli_fetch_array($sql))
+                  {
+                    if ($result['id'] != $product['idBuilding']) {
+                      echo '<option>'.$result['name'].'</option>';
+                    }
+                  } 
+                ?>
+              </select>
             </td>
       	</tr>
       	<tr>
