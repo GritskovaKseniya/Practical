@@ -155,7 +155,7 @@
       	</tr>
       	<tr>
         	 <td>idTeachers:</td>
-        	 <td><select name="Teachers">
+        	 <td><select name="Teachers"> //
               <?
                   $current = mysqli_fetch_array(mysqli_query($cont, 'SELECT firstname, name, surname FROM Teachers WHERE id='.$product['idTeachers']));
                   $sql = mysqli_query($cont, "SELECT id, firstname, name, surname FROM Teachers"); 
