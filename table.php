@@ -5,7 +5,7 @@
   </head>
 <body>
   <?php
-    $host = 'localhost'; $user = 'crm'; $pass = '6QjgPjxQ'; $db_name = 'crm';
+    $host = 'localhost'; $user = '***'; $pass = '****'; $db_name = '***';
     $cont = mysqli_connect($host, $user, $pass, $db_name); //connect to the database, cont is the connection handle
     echo "<meta charset=\"utf8\">";
     header('Content-Type: text/html; charset = utf-8');
